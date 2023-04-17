@@ -1,0 +1,51 @@
+server:
+  port: 10010 # 网关端口
+spring:
+  application:
+    name: gateway # 服务名称
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能，利用微服务名进行路由
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            max-age: 3600
+            allowed-origins: "*"
+            allowed-headers: "*"
+            allow-credentials: true
+            allowed-methods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTION
+      routes: # 网关路由配置
+        - id: testproject # 路由id，自定义，只要唯一即可
+          uri: http://192.168.79.253:9080/testproject # 路由的目标地址 http就是固定地址
+          order: 1
+          #uri: lb://localhost:9080/testproject # 路由的目标地址 lb就是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断请求是否符合路由规则的条件
+            - Path=/testproject/** # 这个是按照路径匹配，只要以/testproject/开头就符合要求
+            #- Weight=DEFAULT_GROUP, 50
+
+        - id: cloud # 路由id，自定义，只要唯一即可
+          uri: http://192.168.79.5:9080/cloud # 路由的目标地址 http就是固定地址
+          order: 2
+          #uri: lb://localhost:9080/testproject # 路由的目标地址 lb就是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断请求是否符合路由规则的条件
+            - Path=/cloud/** # 这个是按照路径匹配，只要以/testproject/开头就符合要求
+            #- Weight=DEFAULT_GROUP, 50
+
+        - id: local # 路由id，自定义，只要唯一即可
+          uri: http://127.0.0.1:9080/local # 路由的目标地址 http就是固定地址
+          #uri: lb://localhost:9080/testproject # 路由的目标地址 lb就是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断请求是否符合路由规则的条件
+            - Path=/local/** # 这个是按照路径匹配，只要以/testproject/开头就符合要求
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.79.5:9099/eureka
+    register-with-eureka: true
+    fetch-registry: true

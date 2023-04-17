@@ -1,0 +1,15 @@
+# Tomcat
+server:
+  port: 9099
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:${server.port}/eureka/
+    register-with-eureka: false
+    fetch-registry: false

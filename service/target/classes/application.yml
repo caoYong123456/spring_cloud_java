@@ -19,7 +19,7 @@ jdbc:
 eureka:
   client:
     service-url:
-      defaultZone: http://192.168.79.5:9099/eureka
+      defaultZone: http://localhost:9099/eureka
     register-with-eureka: true
     fetch-registry: true
 #3.Mybatis配置
@@ -40,15 +40,6 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
 
-#logging:
-#  pattern:
-#    console: %d %-5p %c:%line %m%n
-#    file: %d{yyyy-MM-dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n
-#  file:
-#    path: /var/log/
-#    name: ${logging.file.path}spring-boot.log
-#  level:
-#    root: info
 logging:
   config:
     classpath: logback.xml

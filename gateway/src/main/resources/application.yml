@@ -11,16 +11,17 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            max-age: 3600
-            allowed-origins: "*"
-            allowed-headers: "*"
-            allow-credentials: true
-            allowed-methods:
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+            allowedMethods:
               - GET
               - POST
+              - OPTIONS
               - DELETE
               - PUT
-              - OPTION
+              - HEAD
+              - PATCH
       routes: # 网关路由配置
         - id: testproject # 路由id，自定义，只要唯一即可
           uri: http://192.168.79.253:9080/testproject # 路由的目标地址 http就是固定地址
@@ -46,6 +47,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://192.168.79.5:9099/eureka
+      defaultZone: http://localhost:9099/eureka
     register-with-eureka: true
     fetch-registry: true

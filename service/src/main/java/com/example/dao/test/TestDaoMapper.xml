@@ -34,7 +34,7 @@
     </insert>
     <!-- 更新-->
     <update id="update" parameterType="com.example.entity.test.TestEntity" >
-        update t_student set `name`=#{id}, `age`=#{age} where id=#{id}
+        update t_student set `name`=#{name}, `age`=#{age} where id=#{id}
     </update>
     <!-- 删除-->
     <update id="delete" parameterType="java.lang.Integer" >

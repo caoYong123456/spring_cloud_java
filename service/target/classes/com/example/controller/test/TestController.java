@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/testproject/test")
-@CrossOrigin
+//@CrossOrigin
 public class TestController {
     Logger logger = LoggerFactory.getLogger(getClass());
 

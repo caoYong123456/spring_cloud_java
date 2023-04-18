@@ -19,7 +19,7 @@ jdbc:
 eureka:
   client:
     service-url:
-      defaultZone: http://192.168.79.5:9099/eureka
+      defaultZone: http://localhost:9099/eureka
     register-with-eureka: true
     fetch-registry: true
 #3.Mybatis配置

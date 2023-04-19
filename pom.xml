@@ -13,6 +13,7 @@
         <module>zuul</module>
         <module>service</module>
         <module>gateway</module>
+        <module>api_service</module>
     </modules>
 
     <!--确定spring boot的版本-->

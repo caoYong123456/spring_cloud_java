@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 日志文件名 -->
+    <property name="LOG_FILE" value="spring-boot-log" />
+    <!-- 日志文件路径 -->
+    <property name="LOG_PATH" value="D://var//log" />
+    <!-- 控制台日志输出格式 -->
+    <property name="LOG_PATTERN_CONSOLE" value="%30(%boldGreen(%d{yyyy-MM-dd HH:mm:ss.SSS})  %highlight(%-5level) %magenta([%thread])) %boldCyan(%logger{32}.%method) - %yellow(%msg%n)" />
+    <!-- 文件日志输出格式,不要配置颜色样式，会造成乱码 -->
+    <property name="LOG_PATTERN_FILE" value="%30(%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level [%thread]) %logger{32}.%method - %msg%n" />
+    <!--- 设置控制台日志 -->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN_CONSOLE}</pattern>
+        </encoder>
+    </appender>
+    <!-- 设置日志文件 -->
+    <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${LOG_PATTERN_FILE}</pattern>
+        </encoder>
+        <!-- 总文件日志 -->
+        <file>${LOG_PATH}/${LOG_FILE}.log</file>
+        <!--
+            SizeAndTimeBasedRollingPolicy  :  基于时间和大小的滚动器
+            TimeBasedRollingPolicy :  基于时间的滚动器
+        -->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>-->
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 每天的文件日志 -->
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 日志文件保存30天，超过30天的自动删除 -->
+            <maxHistory>30</maxHistory>
+            <!-- 日志总大小 : 用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志 -->
+            <totalSizeCap>20GB</totalSizeCap>
+            <!--启动项目后清理历史日志-->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <!--日志文件最大的大小-->
+            <maxFileSize>20MB</maxFileSize>
+        </rollingPolicy>
+
+    </appender>
+
+    <!-- 设置日志级别，及需要记录日志的类 -->
+    <root level="INFO">
+        <appender-ref ref="consoleLog" />
+        <appender-ref ref="fileLog" />
+    </root>
+</configuration>

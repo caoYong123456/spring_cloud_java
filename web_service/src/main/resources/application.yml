@@ -1,5 +1,7 @@
 server:
   port: 9080
+  servlet:
+    context-path: /local
 spring:
   application:
     name: web_service

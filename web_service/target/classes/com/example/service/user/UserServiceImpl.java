@@ -1,11 +1,16 @@
 package com.example.service.user;
 
 import com.example.dao.user.UserDaoMapper;
+import com.example.entity.test.TestEntity;
 import com.example.entity.user.User;
+import com.example.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,20 +21,28 @@ public class UserServiceImpl implements UserService {
     private UserDaoMapper userDaoMapper;
 
     @Override
-    public String login(String userName, String password) {
-        try {
-            //校验用户名和密码
-            User user = userDaoMapper.queryUser(userName, password);
-            if (user == null) {
-                logger.info("用户账号密码错误");
-                return null;
-            }
-            //生成token
-            String token = "test-token";
-            return token;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public User queryUser(String userName, String password) {
+        return userDaoMapper.queryUser(userName, password);
     }
+
+    @Override
+    public User getById(Integer id){
+        return userDaoMapper.getById(id);
+    }
+
+    public List<User> getList(User user){
+        return userDaoMapper.getList(user);
+    }
+
+    @Override
+    public void save(User user) {
+
+    }
+
+    @Override
+    public void update(User user) {
+
+    }
+
+
 }

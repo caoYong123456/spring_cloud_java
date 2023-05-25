@@ -4,14 +4,35 @@
 
     <resultMap id="BaseMap" type="com.example.entity.user.User">
         <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_code" jdbcType="VARCHAR" property="userCode"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="nike_name" jdbcType="VARCHAR" property="nikeName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 
     <select id="queryUser" resultMap="BaseMap" >
         select  id,user_name,password,create_time
         from t_user
         where user_name = #{userName,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据主键查询-->
+    <select id="getById" resultMap="BaseMap" parameterType="java.lang.Integer" >
+        select  *
+        from t_user
+        where id = #{id}
+    </select>
+
+    <!-- 查询列表-->
+    <select id="getList" resultMap="BaseMap"  parameterType="com.example.entity.user.User">
+        select  * from t_user
+        where delete_flag = 0
+        <if test="userName != null">
+            and user_name like CONCAT('%', #{userName,jdbcType=VARCHAR},'%') ESCAPE '/'
+        </if>
+        order by update_time desc
     </select>
 </mapper>

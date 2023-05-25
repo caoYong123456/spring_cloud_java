@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class UserInfo {
-    private Long id;
-    private String username;
-    private int role;
+    private String[] roles;
+    private String introduction;
+    private String avatar;
+    private String name;
 }

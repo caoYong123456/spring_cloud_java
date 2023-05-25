@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cloud/test")
+@RequestMapping("/prd")
 //@CrossOrigin
 public class CloudController {
     Logger logger = LoggerFactory.getLogger(getClass());

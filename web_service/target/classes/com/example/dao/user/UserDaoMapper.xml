@@ -35,4 +35,80 @@
         </if>
         order by update_time desc
     </select>
+    <!-- 保存-->
+    <insert id="save" parameterType="com.example.entity.user.User" >
+        insert into  t_user(
+        <if test="userCode != null">
+            `user_code`,
+        </if>
+        <if test="userName != null">
+            `user_name`,
+        </if>
+        <if test="nikeName != null">
+            `nike_name`,
+        </if>
+        <if test="mobile != null">
+            `mobile`,
+        </if>
+        <if test="userType != null">
+            `user_type`,
+        </if>
+        <if test="createTime != null">
+            `create_time`,
+        </if>
+        <if test="updateTime != null">
+            `update_time`,
+        </if>
+        <if test="deleteFlag != null">
+            `delete_flag`,
+        </if>
+        <if test="password != null">
+            `password`
+        </if>
+        )
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userCode != null" >
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="nikeName != null" >
+                #{nikeName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=INTEGER},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <!-- 更新-->
+    <update id="update" parameterType="com.example.entity.user.User" >
+        update
+            t_user
+        set
+            `user_code`=#{userCode},
+            `user_name`=#{userName},
+            `nike_name`=#{nikeName},
+            `mobile`=#{mobile}
+        where id=#{id}
+    </update>
+    <!-- 删除-->
+    <update id="delete" parameterType="java.lang.Integer" >
+        delete from t_user where id=#{id}
+    </update>
 </mapper>

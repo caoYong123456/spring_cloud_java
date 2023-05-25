@@ -17,4 +17,10 @@ public interface UserDaoMapper {
     User queryUser(@Param("userName") String userName, @Param("password") String password);
 
     List<User> getList(User user);
+
+    void save(User user);
+
+    void update(User user);
+
+    void delete(Integer id);
 }

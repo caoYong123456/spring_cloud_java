@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -65,8 +62,22 @@ public class UserManageController {
         if(user.getId() != null){
             userService.update(user);
         }else{
+            user.setUpdateTime(new Date());
+            user.setCreateTime(new Date());
+            user.setUserType("1");
+            user.setPassword("111111");
+            user.setDeleteFlag("0");
             userService.save(user);
         }
+        ajaxResult.setCode(20000);
+        ajaxResult.setMessage("成功");
+        return ajaxResult;
+    }
+
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public AjaxResult delete(@RequestParam(required=false, value = "id") Integer id){
+        AjaxResult ajaxResult = new AjaxResult();
+        userService.delete(id);
         ajaxResult.setCode(20000);
         ajaxResult.setMessage("成功");
         return ajaxResult;

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/dev")
 //@CrossOrigin
 public class LocalController {
     Logger logger = LoggerFactory.getLogger(getClass());

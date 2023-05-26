@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,9 @@ import java.util.List;
 //@CrossOrigin
 public class TestController {
     Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private RestTemplate template;
 
     @Autowired
     private TestService testService ;
@@ -72,4 +76,11 @@ public class TestController {
     public String sendRequest(){
         return SendRequest.post();
     }
+
+    @RequestMapping("/client")
+    public String helloClient1(){
+        String result = template.getForObject("http://127.0.0.1:9090/local/test/list", String.class);
+        return result;
+    }
+
 }

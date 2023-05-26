@@ -1,6 +1,7 @@
 package com.example.controller.user;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.example.entity.test.TestEntity;
 import com.example.entity.user.User;
@@ -12,7 +13,12 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,12 +31,33 @@ public class UserManageController {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
+    private RestTemplate template;
+
+    @Autowired
     private UserService userService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public AjaxResult list(@RequestParam(value = "page",defaultValue = "1") int page,
                            @RequestParam(value = "limit",defaultValue = "10") int limit,
                            User user){
+
+        /**
+         * 测试服务之间的调用
+         */
+//        HttpHeaders headers = new HttpHeaders();
+//        // 设置以json的方式提交
+//        headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+//        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+//        //将请求头部和参数合成一个请求
+//        Map paramMap = new HashMap<>();
+//        paramMap.put("limit",1);
+//        JSONObject jsonObj = new JSONObject(paramMap);
+//        HttpEntity<String> requestEntity = new HttpEntity<>(jsonObj.toString(), headers);
+//        String url = "http://127.0.0.1:9090/local/test/list";
+//        url += "?limit=" + 1;
+//        //String result = template.postForObject(url,requestEntity, String.class);
+//        String result = template.getForObject(url, String.class);
+
         AjaxResult ajaxResult = new AjaxResult();
         HashMap map = new HashMap();
         PageHelper.offsetPage((page-1) * limit,limit);

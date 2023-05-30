@@ -109,4 +109,50 @@ public class UserManageController {
         ajaxResult.setMessage("成功");
         return ajaxResult;
     }
+
+    @RequestMapping(value = "/menu",method = RequestMethod.GET)
+    public AjaxResult menu(@RequestParam("token") String token){
+        AjaxResult ajaxResult = new AjaxResult();
+        ArrayList<HashMap> listData = new ArrayList<>();
+        HashMap map = new HashMap();
+        map.put("path","/table/user");
+        map.put("component","Layout");
+        map.put("redirect","/user-list");
+        map.put("name","Table");
+        HashMap meta = new HashMap();
+        meta.put("title","用户管理");
+        meta.put("icon","table");
+        map.put("meta",meta);
+
+        ArrayList<HashMap> childrenList = new ArrayList<>();
+        HashMap children = new HashMap();
+
+        children.put("path","user-list");
+        children.put("component","() => import('@/views/table/user/user-list'");
+        children.put("name","ComplexTable");
+
+        HashMap meta1 = new HashMap();
+        meta1.put("title","用户列表");
+        children.put("meta",meta1);
+
+        HashMap children1 = new HashMap();
+        children1.put("path","inline-edit-table");
+        children1.put("component","() => import('@/views/table/inline-edit-table'");
+        children1.put("name","InlineEditTable");
+        HashMap meta2 = new HashMap();
+        meta2.put("title","Inline Edit");
+        children1.put("meta",meta2);
+
+
+        childrenList.add(children);
+        childrenList.add(children1);
+        map.put("children",childrenList);
+
+        listData.add(map);
+        ajaxResult.setCode(20000);
+        ajaxResult.setMessage("成功");
+        ajaxResult.setData(map);
+        ajaxResult.setDataList(listData);
+        return ajaxResult;
+    }
 }

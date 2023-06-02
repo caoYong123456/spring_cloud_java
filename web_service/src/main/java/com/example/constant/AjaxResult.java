@@ -1,5 +1,6 @@
-package com.example.utils;
+package com.example.constant;
 
+import com.example.entity.user.Menu;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -16,4 +17,6 @@ public class AjaxResult {
     private HashMap data;
 
     private ArrayList<HashMap> dataList;
+
+    private List<Menu> menuList;
 }

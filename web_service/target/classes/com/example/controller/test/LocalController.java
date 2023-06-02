@@ -3,7 +3,7 @@ package com.example.controller.test;
 import com.alibaba.fastjson.JSON;
 import com.example.entity.test.TestEntity;
 import com.example.service.test.TestService;
-import com.example.utils.AjaxResult;
+import com.example.constant.AjaxResult;
 import com.example.utils.SendRequest;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

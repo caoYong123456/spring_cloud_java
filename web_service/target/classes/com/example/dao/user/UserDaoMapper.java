@@ -1,6 +1,6 @@
 package com.example.dao.user;
 
-import com.example.entity.test.TestEntity;
+import com.example.entity.user.Menu;
 import com.example.entity.user.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,4 +23,8 @@ public interface UserDaoMapper {
     void update(User user);
 
     void delete(Integer id);
+
+    List<Menu> getMenuList();
+
+    List<Menu> getChildrenMenuList(@Param("parentId") Integer parentId);
 }

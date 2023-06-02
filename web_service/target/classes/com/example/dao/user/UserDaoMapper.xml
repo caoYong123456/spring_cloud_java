@@ -13,6 +13,16 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 
+    <resultMap id="MenuMap" type="com.example.entity.user.Menu">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="component" jdbcType="VARCHAR" property="component"/>
+        <result column="redirect" jdbcType="VARCHAR" property="redirect"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="meta" jdbcType="VARCHAR" property="metaStr"/>
+    </resultMap>
+
     <select id="queryUser" resultMap="BaseMap" >
         select  id,user_name,password,create_time
         from t_user
@@ -111,4 +121,30 @@
     <update id="delete" parameterType="java.lang.Integer" >
         delete from t_user where id=#{id}
     </update>
+
+    <!-- 菜单查询-->
+    <select id="getMenuList" resultMap="MenuMap" parameterType="java.lang.Integer">
+        select
+            m.id,
+            m.parent_id,
+            m.path,
+            m.component,
+            m.redirect,
+            m.`name`,
+            m.meta
+        from t_menu m
+        where m.parent_id=0 and m.delete_flag=0
+    </select>
+
+    <select id="getChildrenMenuList" resultMap="MenuMap" parameterType="java.lang.Integer">
+        select
+            m.path,
+            m.component,
+            m.redirect,
+            m.`name`,
+            m.meta
+        from t_menu m
+        where m.parent_id=#{parentId} and m.delete_flag=0
+    </select>
+
 </mapper>

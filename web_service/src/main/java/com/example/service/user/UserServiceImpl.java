@@ -1,13 +1,11 @@
 package com.example.service.user;
 
+import com.example.entity.user.Menu;
 import com.example.dao.user.UserDaoMapper;
-import com.example.entity.test.TestEntity;
 import com.example.entity.user.User;
-import com.example.utils.TokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +45,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Integer id) {
         userDaoMapper.delete(id);
+    }
+
+    @Override
+    public List<Menu> getMenuList() {
+        return userDaoMapper.getMenuList();
+    }
+
+    @Override
+    public List<Menu> getChildrenMenuList(Integer parentId) {
+        return userDaoMapper.getChildrenMenuList(parentId);
     }
 
 

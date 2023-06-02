@@ -2,26 +2,20 @@ package com.example.controller.user;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.JWT;
+import com.example.entity.user.Menu;
 import com.example.entity.test.TestEntity;
+import com.example.entity.user.Meta;
 import com.example.entity.user.User;
 import com.example.service.user.UserService;
-import com.example.utils.AjaxResult;
-import com.example.utils.TokenUtils;
+import com.example.constant.AjaxResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @RestController
@@ -44,19 +38,19 @@ public class UserManageController {
         /**
          * 测试服务之间的调用
          */
-        HttpHeaders headers = new HttpHeaders();
-        // 设置以json的方式提交
-        headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-        //将请求头部和参数合成一个请求
-        Map paramMap = new HashMap<>();
-        paramMap.put("limit",1);
-        JSONObject jsonObj = new JSONObject(paramMap);
-        HttpEntity<String> requestEntity = new HttpEntity<>(jsonObj.toString(), headers);
-        String url = "http://127.0.0.1:9090/local/test/list";
-        url += "?limit=" + 1;
-        //String result = template.postForObject(url,requestEntity, String.class);
-        String result = template.getForObject(url, String.class);
+//        HttpHeaders headers = new HttpHeaders();
+//        // 设置以json的方式提交
+//        headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+//        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+//        //将请求头部和参数合成一个请求
+//        Map paramMap = new HashMap<>();
+//        paramMap.put("limit",1);
+//        JSONObject jsonObj = new JSONObject(paramMap);
+//        HttpEntity<String> requestEntity = new HttpEntity<>(jsonObj.toString(), headers);
+//        String url = "http://127.0.0.1:9090/local/test/list";
+//        url += "?limit=" + 1;
+//        //String result = template.postForObject(url,requestEntity, String.class);
+//        String result = template.getForObject(url, String.class);
 
         AjaxResult ajaxResult = new AjaxResult();
         HashMap map = new HashMap();
@@ -107,6 +101,72 @@ public class UserManageController {
         userService.delete(id);
         ajaxResult.setCode(20000);
         ajaxResult.setMessage("成功");
+        return ajaxResult;
+    }
+
+    @RequestMapping(value = "/menu",method = RequestMethod.GET)
+    public AjaxResult menu(@RequestParam("token") String token){
+        AjaxResult ajaxResult = new AjaxResult();
+//        ArrayList<HashMap> listData = new ArrayList<>();
+//        HashMap map = new HashMap();
+//        map.put("path","/table/user");
+//        map.put("component","Layout");
+//        map.put("redirect","/user-list");
+//        map.put("name","Table");
+//        HashMap meta = new HashMap();
+//        meta.put("title","用户管理");
+//        meta.put("icon","table");
+//        map.put("meta",meta);
+//
+//        ArrayList<HashMap> childrenList = new ArrayList<>();
+//        HashMap children = new HashMap();
+//
+//        children.put("path","user-list");
+//        children.put("component","() => import('@/views/table/user/user-list'");
+//        children.put("name","ComplexTable");
+//
+//        HashMap meta1 = new HashMap();
+//        meta1.put("title","用户列表");
+//        children.put("meta",meta1);
+//
+//        HashMap children1 = new HashMap();
+//        children1.put("path","inline-edit-table");
+//        children1.put("component","() => import('@/views/table/inline-edit-table'");
+//        children1.put("name","InlineEditTable");
+//        HashMap meta2 = new HashMap();
+//        meta2.put("title","Inline Edit");
+//        children1.put("meta",meta2);
+//
+//
+//        childrenList.add(children);
+//        childrenList.add(children1);
+//        map.put("children",childrenList);
+//
+//        listData.add(map);
+
+        List<Menu> menuListAll = new ArrayList<>();
+        List<Menu> menuList = userService.getMenuList();
+        for(Menu menu:menuList){
+            List<Menu> childrenMenuList = userService.getChildrenMenuList(menu.getId());
+            for(Menu childrenMenu : childrenMenuList){
+                String childrenMetaStr = childrenMenu.getMetaStr();
+                Map map = JSON.parseObject(childrenMetaStr, Map.class);
+                Meta childrenMate = JSONObject.parseObject(JSONObject.toJSONString(map), Meta.class);
+                childrenMenu.setMeta(childrenMate);
+            }
+            String metaMenu = menu.getMetaStr();
+            Map map = JSON.parseObject(metaMenu, Map.class);
+            Meta menuMate = JSONObject.parseObject(JSONObject.toJSONString(map), Meta.class);
+            menu.setMeta(menuMate);
+            menu.setChildren(childrenMenuList);
+            menuListAll.add(menu);
+        }
+        ajaxResult.setCode(20000);
+        ajaxResult.setMessage("成功");
+        ajaxResult.setMenuList(menuListAll);
+        logger.info("加载用户菜单:"+ JSON.toJSONString(menuListAll));
+        //ajaxResult.setData(map);
+        //ajaxResult.setDataList(listData);
         return ajaxResult;
     }
 }

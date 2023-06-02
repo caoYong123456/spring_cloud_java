@@ -2,11 +2,9 @@ package com.example.controller.user;
 
 import com.auth0.jwt.JWT;
 import com.example.entity.user.User;
-import com.example.entity.user.UserInfo;
 import com.example.service.user.UserService;
-import com.example.utils.AjaxResult;
+import com.example.constant.AjaxResult;
 import com.example.utils.TokenUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
